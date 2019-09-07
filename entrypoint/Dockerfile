@@ -1,7 +1,7 @@
 ARG UBUNTU_VERSION=18.04
 FROM ubuntu:$UBUNTU_VERSION
 
-RUN apt-get -y update &&
+RUN apt-get -y update && \
   apt-get -y install gosu
 
 COPY ./entrypoint.sh /usr/local/bin/entrypoint.sh

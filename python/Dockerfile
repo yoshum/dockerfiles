@@ -177,5 +177,6 @@ RUN set -ex \
             -type f -exec rm -f {} +
 
 COPY --from=builder /usr/local /usr/local
+RUN /sbin/ldconfig
 
 CMD ["python"]

@@ -13,7 +13,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 # extra dependencies (over what buildpack-deps already includes)
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    tk-dev \
     uuid-dev \
   && find /var/lib/apt/lists \
     /usr/share/man \
@@ -153,7 +152,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN set -ex \
     && apt update \
-    && apt -y upgrade \
     && apt-mark unhold \
       apt \
       libcap2 \
@@ -166,7 +164,6 @@ RUN set -ex \
       libbz2-1.0 \
       libexpat1 \
       libsqlite3-0 \
-      libtk8.6 \
       zlib1g \
     && find /usr -type f -name "*.so" -exec strip --strip-unneeded {} + \
     && apt-get remove binutils --purge -y -qq \

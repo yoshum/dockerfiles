@@ -156,13 +156,15 @@ RUN pip install --no-cache-dir \
     intel-scikit-learn \
     intel-scipy \
     intel-numpy \
-  && pip install --no-cache-dir torch torchvision
+  && pip install --no-cache-dir torch torchvision \
   && find /usr/local -depth \
     \( \
       \( -type d -a \( -name test -o -name tests \) \) \
       -o \
       \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
     \) -exec rm -rf '{}' +
+
+RUN rm -rf /usr/local/cuda-${CUDA_VERSION} /usr/local/cuda
 
 #############################################################################
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION}

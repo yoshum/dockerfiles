@@ -1,4 +1,6 @@
+all: pytorch python entrypoint
 .PHONY: pytorch python entrypoint
+
 REPO := yoshum
 
 UBUNTU_VERSION ?= 18.04

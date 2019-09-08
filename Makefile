@@ -35,13 +35,14 @@ ifeq ($(TORCH_VERSION),latest)
 TORCH_PACKAGES = torch torchvision
 endif
 pytorch: TAG_BASE = $(TORCH_VERSION)-py$(PYTHON_VERSION)-cuda$(CUDA_VERSION)-ubuntu$(UBUNTU_VERSION)
+pytorch:
 	$(call copy-resources,entrypoint,pytorch)
 	$(call build-image,pytorch,$(TAG),\
 		--build-arg PYTHON_VERSION=$(PYTHON_REVISION) \
 		--build-arg CUDA_IMAGE_VERSION=$(CUDA_VERSION) \
 		--build-arg UBUNTU_VERSION=$(UBUNTU_VERSION) \
 		--build-arg GPG_KEY=$(GPG_KEY) \
-		--build-arg TORCH_PACKAGES="$(TORCH_PACKAGES) \
+		--build-arg TORCH_PACKAGES="$(TORCH_PACKAGES)" \
 		--build-arg PIP_PACKAGES="$(PIP_PACKAGES)")
 	rm -rf pytorch/resources/entrypoint
 

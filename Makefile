@@ -7,6 +7,8 @@ PYTHON_REVISION = 3.6.9
 GPG_KEY = 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
 endif
 
+CUDA_VERSION ?= 10.0
+
 MKL ?= 1
 ifeq ($(MKL),1)
 PIP_PACKAGES = intel-scikit-learn intel-scipy intel-numpy
@@ -41,7 +43,7 @@ python:
 
 pytorch:
 TORCH_VERSION ?= latest
-TAG_BASE = $(TORCH_VERSION)-py$(PYTHON_VERSION)-ubuntu$(UBUNTU_VERSION)
+TAG_BASE = $(TORCH_VERSION)-py$(PYTHON_VERSION)-cuda$(CUDA_VERSION)-ubuntu$(UBUNTU_VERSION)
 
 ifeq ($(TORCH_VERSION),latest)
 TORCH_PACKAGES = torch torchvision
@@ -49,6 +51,7 @@ endif
 	$(call copy-resources,entrypoint,pytorch)
 	$(call build-image,pytorch,$(TAG),\
 		--build-arg PYTHON_VERSION=$(PYTHON_REVISION) \
+		--build-arg CUDA_IMAGE_VERSION=$(CUDA_VERSION) \
 		--build-arg UBUNTU_VERSION=$(UBUNTU_VERSION) \
 		--build-arg GPG_KEY=$(GPG_KEY) \
 		--build-arg TORCH_PACKAGES="$(TORCH_PACKAGES) \

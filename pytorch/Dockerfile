@@ -1,8 +1,8 @@
 ARG UBUNTU_VERSION=18.04
-ARG CUDA_VERSION=10.0
+ARG CUDA_IMAGE_VERSION=10.0
 
 # FROM buildpack-deps:$UBUNTU_VERSION as builder
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION} as builder
+FROM nvidia/cuda:${CUDA_IMAGE_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION} as builder
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
@@ -33,7 +33,7 @@ RUN apt-get update \
     /var/log \
     -type f -exec rm -f {} +
 
-ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
+ARG GPG_KEY=0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
 ARG PYTHON_VERSION=3.6.9
 
 RUN set -ex \
@@ -164,10 +164,11 @@ RUN pip install --no-cache-dir ${PIP_PACKAGES} \
       \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
     \) -exec rm -rf '{}' +
 
-RUN rm -rf /usr/local/cuda-${CUDA_VERSION} /usr/local/cuda
+RUN set -ex ; \
+  rm -rf /usr/local/cuda-${CUDA_IMAGE_VERSION} /usr/local/cuda
 
 #############################################################################
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION}
+FROM nvidia/cuda:${CUDA_IMAGE_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION}
 
 ENV PATH /usr/local/bin:$PATH
 

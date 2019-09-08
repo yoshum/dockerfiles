@@ -13,7 +13,7 @@ PIP_PACKAGES = intel-scikit-learn intel-scipy intel-numpy
 TAG = $(TAG_BASE)
 else
 PIP_PACKAGES = scikit-learn scipy numpy
-TAG = $(TAG_BASE)-mkl
+TAG = $(TAG_BASE)-nomkl
 endif
 
 define build-image
@@ -42,10 +42,10 @@ python:
 pytorch:
 TORCH_VERSION ?= latest
 TAG_BASE = $(TORCH_VERSION)-py$(PYTHON_VERSION)-ubuntu$(UBUNTU_VERSION)
+
 ifeq ($(TORCH_VERSION),latest)
 TORCH_PACKAGES = torch torchvision
 endif
-
 	$(call copy-resources,entrypoint,pytorch)
 	$(call build-image,pytorch,$(TAG),\
 		--build-arg PYTHON_VERSION=$(PYTHON_REVISION) \

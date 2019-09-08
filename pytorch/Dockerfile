@@ -187,6 +187,7 @@ RUN set -ex \
       libsemanage1 \
       passwd \
     && apt-get install -y --no-install-recommends \
+      gosu \
       libbz2-1.0 \
       libexpat1 \
       libsqlite3-0 \

@@ -161,6 +161,7 @@ RUN set -ex \
       binutils \
       curl \
       git \
+      gosu \
       libbz2-1.0 \
       libexpat1 \
       libsqlite3-0 \

@@ -152,11 +152,11 @@ RUN set -ex; \
     \) -exec rm -rf '{}' +; \
   rm -f get-pip.py
 
-RUN pip install --no-cache-dir \
-    intel-scikit-learn \
-    intel-scipy \
-    intel-numpy \
-  && pip install --no-cache-dir torch torchvision \
+ARG PIP_PACKAGES="scikit-learn scipy numpy"
+ARG TORCH_PACKAGES="torch torchvision"
+
+RUN pip install --no-cache-dir ${PIP_PACKAGES} \
+  && pip install --no-cache-dir ${TORCH_PACKAGES} \
   && find /usr/local -depth \
     \( \
       \( -type d -a \( -name test -o -name tests \) \) \

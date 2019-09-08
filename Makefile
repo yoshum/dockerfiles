@@ -48,9 +48,7 @@ pytorch:
 
 python:
 	$(call copy-resources,entrypoint,python)
-	$(call build-image,\
-		python,\
-		$(PYTHON_VERSION)-ubuntu$(UBUNTU_VERSION),\
+	$(call build-image,python,$(PYTHON_VERSION)-ubuntu$(UBUNTU_VERSION),\
 		--build-arg PYTHON_VERSION=$(PYTHON_REVISION) \
 		--build-arg UBUNTU_VERSION=$(UBUNTU_VERSION) \
 		--build-arg GPG_KEY=$(GPG_KEY))

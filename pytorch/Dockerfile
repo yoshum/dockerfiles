@@ -154,8 +154,8 @@ RUN set -ex; \
 
 ARG PIP_PACKAGES="scikit-learn scipy numpy"
 ARG TORCH_PACKAGES="torch torchvision"
-
-RUN pip install --no-cache-dir ${PIP_PACKAGES} \
+RUN set -ex ; \
+  pip install --no-cache-dir ${PIP_PACKAGES} \
   && pip install --no-cache-dir ${TORCH_PACKAGES} \
   && find /usr/local -depth \
     \( \
@@ -164,6 +164,7 @@ RUN pip install --no-cache-dir ${PIP_PACKAGES} \
       \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
     \) -exec rm -rf '{}' +
 
+ARG CUDA_IMAGE_VERSION
 RUN set -ex ; \
   rm -rf /usr/local/cuda-${CUDA_IMAGE_VERSION} /usr/local/cuda
 
@@ -200,7 +201,7 @@ RUN set -ex \
 COPY --from=builder /usr/local /usr/local
 RUN /sbin/ldconfig
 
-COPY ./resources/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./resources/entrypoint/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 

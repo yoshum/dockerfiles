@@ -176,7 +176,7 @@ RUN set -ex \
 COPY --from=builder /usr/local /usr/local
 RUN /sbin/ldconfig
 
-COPY ./resources/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./resources/entrypoint/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 

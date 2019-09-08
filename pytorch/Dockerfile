@@ -1,8 +1,8 @@
 ARG UBUNTU_VERSION=18.04
-ARG CUDA_VERSION=10.0
+ARG CUDA_IMAGE_VERSION=10.0
 
 # FROM buildpack-deps:$UBUNTU_VERSION as builder
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION} as builder
+FROM nvidia/cuda:${CUDA_IMAGE_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION} as builder
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
@@ -152,7 +152,8 @@ RUN set -ex; \
     \) -exec rm -rf '{}' +; \
   rm -f get-pip.py
 
-RUN pip install --no-cache-dir \
+RUN set -ex ; \
+  pip install --no-cache-dir \
     intel-scikit-learn \
     intel-scipy \
     intel-numpy \
@@ -164,8 +165,11 @@ RUN pip install --no-cache-dir \
       \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
     \) -exec rm -rf '{}' +
 
+RUN set -ex ; \
+  rm -rf /usr/local/cuda-${CUDA_IMAGE_VERSION} /usr/local/cuda
+
 #############################################################################
-FROM nvidia/cuda:${CUDA_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION}
+FROM nvidia/cuda:${CUDA_IMAGE_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION}
 
 ENV PATH /usr/local/bin:$PATH
 

@@ -43,7 +43,7 @@ RUN set -ex \
   && wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
   && wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
   && export GNUPGHOME="$(mktemp -d)" \
-  && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
+  && gpg --batch --keyserver ipv4.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
   && gpg --batch --verify python.tar.xz.asc python.tar.xz \
   && { command -v gpgconf > /dev/null && gpgconf --kill all || :; } \
   && rm -rf "$GNUPGHOME" python.tar.xz.asc \
@@ -126,7 +126,7 @@ RUN cd /usr/local/bin \
   && ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 19.2.3
+ENV PYTHON_PIP_VERSION 20.0.2
 # https://github.com/pypa/get-pip
 ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/309a56c5fd94bd1134053a541cb4657a4e47e09d/get-pip.py
 ENV PYTHON_GET_PIP_SHA256 57e3643ff19f018f8a00dfaa6b7e4620e3c1a7a2171fd218425366ec006b3bfe
@@ -155,8 +155,8 @@ RUN set -ex; \
 ARG PIP_PACKAGES="scikit-learn scipy numpy"
 ARG TORCH_PACKAGES="torch torchvision"
 RUN set -ex ; \
-  pip install --no-cache-dir ${PIP_PACKAGES} \
-  && pip install --no-cache-dir ${TORCH_PACKAGES} \
+  python -m pip install --no-cache-dir ${PIP_PACKAGES} \
+  && python -m pip install --no-cache-dir ${TORCH_PACKAGES} \
   && find /usr/local -depth \
     \( \
       \( -type d -a \( -name test -o -name tests \) \) \
@@ -191,6 +191,7 @@ RUN set -ex \
       libbz2-1.0 \
       libexpat1 \
       libsqlite3-0 \
+      sudo \
       zlib1g \
     && (find /usr -type f -name "*.so" -exec strip --strip-unneeded {} + || true)\
     && find /var/lib/apt/lists \

@@ -2,7 +2,7 @@ ARG UBUNTU_VERSION=18.04
 FROM ubuntu:$UBUNTU_VERSION
 
 RUN apt-get -y update \
-  && apt-get -y install gosu \
+  && apt-get -y install gosu sudo \
   && find /var/lib/apt/lists \
     /usr/share/man \
     /usr/share/doc \

@@ -159,12 +159,11 @@ RUN set -ex \
       passwd \
     && apt-get install -y --no-install-recommends \
       binutils \
-      curl \
-      git \
       gosu \
       libbz2-1.0 \
       libexpat1 \
       libsqlite3-0 \
+      sudo \
       zlib1g \
     && find /usr -type f -name "*.so" -exec strip --strip-unneeded {} + \
     && apt-get remove binutils --purge -y -qq \
